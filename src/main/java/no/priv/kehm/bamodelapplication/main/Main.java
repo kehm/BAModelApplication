@@ -29,6 +29,7 @@ public class Main extends Application {
         primaryStage.show();
         primaryStage.setResizable(false);
         MainController controller = loader.getController();
+        printToConsole();
     }
 
     /**
@@ -38,12 +39,16 @@ public class Main extends Application {
      */
     public static void main(String[] args) {
         launch(args);
-        /*int n = 10; // The book specifies N = 10^4
+
+    }
+
+    private static void printToConsole() {
+        int n = 10; // The book specifies N = 10^4
         int m = 4; // The book specifies m = 4 as an initial condition
         Network network = NetworkGenerator.getInstance().generateNetwork(n, m);
         printAdjacencyList(network);
         printDegrees(network);
-        printDegreeDistribution(network);*/
+        printDegreeDistribution(network);
     }
 
     /**
