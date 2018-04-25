@@ -1,5 +1,11 @@
 package no.priv.kehm.bamodelapplication.main;
 
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import no.priv.kehm.bamodelapplication.gui.MainController;
 import no.priv.kehm.bamodelapplication.network.Network;
 import no.priv.kehm.bamodelapplication.util.NetworkAnalyzer;
 import no.priv.kehm.bamodelapplication.util.NetworkGenerator;
@@ -8,9 +14,22 @@ import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Main class for launching the Barabási-Albert Network Application (BANetworkApp)
+ * Main class for launching the Barabási-Albert Model Application (BAModelApplication)
  */
-public class Main {
+public class Main extends Application {
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Main.fxml"));
+        Parent root = (Parent) loader.load();
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add("/styles/main.css");
+        primaryStage.setTitle("Barabási-Albert Model Application");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+        primaryStage.setResizable(false);
+        MainController controller = loader.getController();
+    }
 
     /**
      * Main method to launch application
@@ -18,12 +37,13 @@ public class Main {
      * @param args args
      */
     public static void main(String[] args) {
-        int n = 10; // The book specifies N = 10^4
+        launch(args);
+        /*int n = 10; // The book specifies N = 10^4
         int m = 4; // The book specifies m = 4 as an initial condition
         Network network = NetworkGenerator.getInstance().generateNetwork(n, m);
         printAdjacencyList(network);
         printDegrees(network);
-        printDegreeDistribution(network);
+        printDegreeDistribution(network);*/
     }
 
     /**
