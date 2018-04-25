@@ -61,10 +61,10 @@
                                  <center>
                                     <ScatterChart fx:id="distributionChart" BorderPane.alignment="CENTER">
                                       <xAxis>
-                                        <CategoryAxis side="BOTTOM" />
+                                        <NumberAxis fx:id="distributionChartX" side="BOTTOM" />
                                       </xAxis>
                                       <yAxis>
-                                        <NumberAxis side="LEFT" />
+                                        <NumberAxis fx:id="distributionChartY" side="LEFT" />
                                       </yAxis>
                                     </ScatterChart>
                                  </center>

@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
@@ -18,14 +19,20 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class MainController implements Initializable {
 
+    private static final int N = 10;
+    private static final int M = 4;
+    private Network network;
+
     @FXML
     private Button generateNetworkBtn;
     @FXML
     private Button plotDegreeDistributionBtn;
     @FXML
     private ScatterChart distributionChart;
-
-    private Network network;
+    @FXML
+    private NumberAxis distributionChartX;
+    @FXML
+    private NumberAxis distributionChartY;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -38,9 +45,15 @@ public class MainController implements Initializable {
 
     @FXML
     private void generateNetwork(ActionEvent event) {
-        int n = 10; // The book specifies N = 10^4
-        int m = 4; // The book specifies m = 4 as an initial condition
-        this.network = NetworkGenerator.getInstance().generateNetwork(n, m);
+        this.network = NetworkGenerator.getInstance().generateNetwork(N, M);
+        distributionChartY.setAutoRanging(false);
+        distributionChartY.setLowerBound(0);
+        distributionChartY.setUpperBound(network.getNodes().size());
+        distributionChartY.setTickUnit(1);
+        distributionChartX.setAutoRanging(false);
+        distributionChartX.setLowerBound(0);
+        distributionChartX.setUpperBound(network.getNodes().size());
+        distributionChartX.setTickUnit(1);
         printAdjacencyList(network);
         printDegrees(network);
         printDegreeDistribution(network);
@@ -51,6 +64,10 @@ public class MainController implements Initializable {
         final XYChart.Series series = new XYChart.Series();
         series.setName("Degree Distribution");
         LinkedList degreeDistribution = NetworkAnalyzer.getInstance().getDegreeDistribution(network);
+        for (int i = 0; i < degreeDistribution.size(); i++) {
+            AtomicInteger integer = (AtomicInteger) degreeDistribution.get(i);
+            series.getData().add(new XYChart.Data<>(i, integer.get()));
+        }
         Platform.runLater(() -> distributionChart.getData().addAll(series));
     }
 
