@@ -15,11 +15,10 @@ import no.priv.kehm.bamodelapplication.util.NetworkGenerator;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class MainController implements Initializable {
 
-    private static final int N = 10;
+    private static final int N = 100;
     private static final int M = 4;
     private Network network;
 
@@ -48,8 +47,8 @@ public class MainController implements Initializable {
         this.network = NetworkGenerator.getInstance().generateNetwork(N, M);
         distributionChartY.setAutoRanging(false);
         distributionChartY.setLowerBound(0);
-        distributionChartY.setUpperBound(network.getNodes().size());
-        distributionChartY.setTickUnit(1);
+        distributionChartY.setUpperBound(1);
+        distributionChartY.setTickUnit(0.1);
         distributionChartX.setAutoRanging(false);
         distributionChartX.setLowerBound(0);
         distributionChartX.setUpperBound(network.getNodes().size());
@@ -65,8 +64,7 @@ public class MainController implements Initializable {
         series.setName("Degree Distribution");
         LinkedList degreeDistribution = NetworkAnalyzer.getInstance().getDegreeDistribution(network);
         for (int i = 0; i < degreeDistribution.size(); i++) {
-            AtomicInteger integer = (AtomicInteger) degreeDistribution.get(i);
-            series.getData().add(new XYChart.Data<>(i, integer.get()));
+            series.getData().add(new XYChart.Data<>(i, degreeDistribution.get(i)));
         }
         Platform.runLater(() -> distributionChart.getData().addAll(series));
     }
@@ -110,8 +108,7 @@ public class MainController implements Initializable {
         LinkedList degreeDistribution = NetworkAnalyzer.getInstance().getDegreeDistribution(network);
         int counter = 0;
         for (Object o : degreeDistribution) {
-            AtomicInteger integer = (AtomicInteger) o;
-            System.out.println("k = " + counter + " distr = " + integer.toString());
+            System.out.println("k = " + counter + " distr = " + (double) o);
             counter++;
         }
     }
