@@ -34,7 +34,7 @@ public class LogarithmicAxis extends ValueAxis<Number> {
     private final DoubleProperty logLowerBound = new SimpleDoubleProperty();
 
     public LogarithmicAxis() {
-        super(1, 100);
+        super(-3, 3);
         bindLogBoundsToDefaultBounds();
     }
 

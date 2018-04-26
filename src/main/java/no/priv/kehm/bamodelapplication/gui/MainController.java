@@ -1,30 +1,35 @@
 package no.priv.kehm.bamodelapplication.gui;
 
-import javafx.application.Platform;
-import javafx.concurrent.WorkerStateEvent;
+import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.Tab;
 import javafx.scene.text.Text;
+import no.priv.kehm.bamodelapplication.lib.LogarithmicAxis;
 import no.priv.kehm.bamodelapplication.network.Network;
 import no.priv.kehm.bamodelapplication.service.GenerateNetworkService;
 import no.priv.kehm.bamodelapplication.util.NetworkAnalyzer;
-import no.priv.kehm.bamodelapplication.util.NetworkGenerator;
-
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.LogAxis;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYItemRenderer;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
-
 
     private Network network;
 
@@ -37,9 +42,9 @@ public class MainController implements Initializable {
     @FXML
     private ScatterChart distributionChart;
     @FXML
-    private NumberAxis distributionChartX;
+    private LogarithmicAxis distributionChartX;
     @FXML
-    private NumberAxis distributionChartY;
+    private LogarithmicAxis distributionChartY;
     @FXML
     private Tab mainTab;
     @FXML
@@ -54,6 +59,8 @@ public class MainController implements Initializable {
     private ProgressIndicator networkProgress;
     @FXML
     private Text welcomeText;
+    @FXML
+    private SwingNode distributionChartNode;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -94,32 +101,41 @@ public class MainController implements Initializable {
             welcomeText.setVisible(true);
             System.out.println("Network generation failed!");
         });
-        generateNetworkService.restart(); //here you start your service
-        distributionChartY.setAutoRanging(false);
-        distributionChartY.setLowerBound(-3);
-        distributionChartY.setUpperBound(3);
-        distributionChartY.setTickUnit(0.1);
-        distributionChartX.setAutoRanging(false);
-        distributionChartX.setLowerBound(0);
-        distributionChartX.setUpperBound(200);
-        distributionChartX.setTickUnit(1);
-        //printAdjacencyList(network);
-        //printDegrees(network);
-        //printDegreeDistribution(network);
+        generateNetworkService.restart();
     }
 
     @FXML
     private void plotDegreeDistribution(ActionEvent event) {
+        XYSeriesCollection seriesCollection = new XYSeriesCollection();
         ArrayList degreeDistributions = NetworkAnalyzer.getInstance().getDegreeDistributions();
         for (int i = 0; i < degreeDistributions.size(); i++) {
-            final XYChart.Series series = new XYChart.Series();
-            series.setName("Degree Distribution");
+            String tag = i+1 + ". Measurement";
+            XYSeries series = new XYSeries(tag);
             LinkedList degreeDistribution = (LinkedList) degreeDistributions.get(i);
             for (int j = 0; j < degreeDistribution.size(); j++) {
-                series.getData().add(new XYChart.Data<>(j, Math.log10((double) degreeDistribution.get(j))));
+                series.add(j, (double) degreeDistribution.get(j));
             }
-            Platform.runLater(() -> distributionChart.getData().addAll(series));
+            seriesCollection.addSeries(series);
         }
+        LogAxis xAxis = new LogAxis("k");
+        LogAxis yAxis = new LogAxis("Pk");
+        yAxis.setBase(10);
+        xAxis.setBase(10);
+        yAxis.setLowerBound(Math.pow(10, (-9)));
+        yAxis.setUpperBound(1);
+        xAxis.setLowerBound(1);
+        xAxis.setUpperBound(10000);
+        XYPlot plot = new XYPlot(seriesCollection, xAxis, yAxis, new XYLineAndShapeRenderer(false, true));
+        XYItemRenderer renderer = plot.getRenderer();
+        for(int i = 0; i < seriesCollection.getSeriesCount(); i++) {
+            renderer.setSeriesShape(i, new Ellipse2D.Double(-2.0, -2.0, 4.0, 4.0));
+        }
+        JFreeChart chart = new JFreeChart(plot);
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setPreferredSize(new Dimension(648,450));
+        JPanel jPanel = new JPanel();
+        jPanel.add(chartPanel);
+        SwingUtilities.invokeLater(() -> distributionChartNode.setContent(jPanel));
     }
 
     // DEBUG METHODS BELOW
@@ -165,4 +181,6 @@ public class MainController implements Initializable {
             counter++;
         }
     }
+
+
 }

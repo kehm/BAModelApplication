@@ -14,6 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.embed.swing.SwingNode?>
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="518.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.priv.kehm.bamodelapplication.gui.MainController">
    <children>
       <BorderPane prefHeight="418.0" prefWidth="668.0">
@@ -71,14 +72,7 @@
                                        </children></VBox>
                                  </right>
                                  <center>
-                                    <ScatterChart fx:id="distributionChart" BorderPane.alignment="CENTER">
-                                      <xAxis>
-                                        <NumberAxis fx:id="distributionChartX" side="BOTTOM" />
-                                      </xAxis>
-                                      <yAxis>
-                                        <NumberAxis fx:id="distributionChartY" side="LEFT" />
-                                      </yAxis>
-                                    </ScatterChart>
+                                    <SwingNode fx:id="distributionChartNode"/>
                                  </center>
                               </BorderPane>
                            </children>
