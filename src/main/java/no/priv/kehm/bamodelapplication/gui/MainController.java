@@ -46,8 +46,8 @@ public class MainController implements Initializable {
     private void generateNetwork(ActionEvent event) {
         this.network = NetworkGenerator.getInstance().generateNetwork(N, M);
         distributionChartY.setAutoRanging(false);
-        distributionChartY.setLowerBound(0);
-        distributionChartY.setUpperBound(1);
+        distributionChartY.setLowerBound(-3);
+        distributionChartY.setUpperBound(3);
         distributionChartY.setTickUnit(0.1);
         distributionChartX.setAutoRanging(false);
         distributionChartX.setLowerBound(0);
