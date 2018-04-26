@@ -1,15 +1,20 @@
 package no.priv.kehm.bamodelapplication.gui;
 
 import javafx.application.Platform;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.Tab;
+import javafx.scene.text.Text;
 import no.priv.kehm.bamodelapplication.network.Network;
+import no.priv.kehm.bamodelapplication.service.GenerateNetworkService;
 import no.priv.kehm.bamodelapplication.util.NetworkAnalyzer;
 import no.priv.kehm.bamodelapplication.util.NetworkGenerator;
 
@@ -20,12 +25,13 @@ import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
 
-    private static final int M = 4;
-    private static final int N = 10000 - M;
+
     private Network network;
 
     @FXML
     private Button generateNetworkBtn;
+    @FXML
+    private Button exitApplicationBtn;
     @FXML
     private Button plotDegreeDistributionBtn;
     @FXML
@@ -44,6 +50,10 @@ public class MainController implements Initializable {
     private Tab clusteringCoefficientTab;
     @FXML
     private Tab degreeDynamicsTab;
+    @FXML
+    private ProgressIndicator networkProgress;
+    @FXML
+    private Text welcomeText;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -51,6 +61,7 @@ public class MainController implements Initializable {
         cumulativeDegreeDistributionTab.setDisable(true);
         clusteringCoefficientTab.setDisable(true);
         degreeDynamicsTab.setDisable(true);
+        networkProgress.setVisible(false);
     }
 
     @FXML
@@ -60,7 +71,30 @@ public class MainController implements Initializable {
 
     @FXML
     private void generateNetwork(ActionEvent event) {
-        this.network = NetworkGenerator.getInstance().generateNetwork(N, M);
+        welcomeText.setText("Generating network...");
+        generateNetworkBtn.setDisable(true);
+        exitApplicationBtn.setDisable(true);
+        networkProgress.setVisible(true);
+        final GenerateNetworkService generateNetworkService = new GenerateNetworkService();
+        generateNetworkService.setOnSucceeded(workerStateEvent -> {
+            network = (Network) generateNetworkService.getValue();
+            networkProgress.setVisible(false);
+            welcomeText.setText("Network generated");
+            degreeDistributionTab.setDisable(false);
+            cumulativeDegreeDistributionTab.setDisable(false);
+            clusteringCoefficientTab.setDisable(false);
+            degreeDynamicsTab.setDisable(false);
+            exitApplicationBtn.setDisable(false);
+        });
+        generateNetworkService.setOnFailed(workerStateEvent -> {
+            networkProgress.setVisible(false);
+            exitApplicationBtn.setDisable(false);
+            generateNetworkBtn.setDisable(false);
+            welcomeText.setText("Click the button below to generate a network");
+            welcomeText.setVisible(true);
+            System.out.println("Network generation failed!");
+        });
+        generateNetworkService.restart(); //here you start your service
         distributionChartY.setAutoRanging(false);
         distributionChartY.setLowerBound(-3);
         distributionChartY.setUpperBound(3);
@@ -69,10 +103,6 @@ public class MainController implements Initializable {
         distributionChartX.setLowerBound(0);
         distributionChartX.setUpperBound(200);
         distributionChartX.setTickUnit(1);
-        degreeDistributionTab.setDisable(false);
-        cumulativeDegreeDistributionTab.setDisable(false);
-        clusteringCoefficientTab.setDisable(false);
-        degreeDynamicsTab.setDisable(false);
         //printAdjacencyList(network);
         //printDegrees(network);
         //printDegreeDistribution(network);
@@ -92,8 +122,8 @@ public class MainController implements Initializable {
         }
     }
 
-
     // DEBUG METHODS BELOW
+
     /**
      * Prints adjacency list
      *
