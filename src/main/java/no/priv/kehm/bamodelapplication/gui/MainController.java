@@ -18,8 +18,8 @@ import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
 
-    private static final int N = 100;
     private static final int M = 4;
+    private static final int N = 100 - M;
     private Network network;
 
     @FXML
