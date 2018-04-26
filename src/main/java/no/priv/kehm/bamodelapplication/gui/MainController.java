@@ -8,6 +8,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
 import no.priv.kehm.bamodelapplication.network.Network;
 import no.priv.kehm.bamodelapplication.util.NetworkAnalyzer;
 import no.priv.kehm.bamodelapplication.util.NetworkGenerator;
@@ -33,9 +34,23 @@ public class MainController implements Initializable {
     private NumberAxis distributionChartX;
     @FXML
     private NumberAxis distributionChartY;
+    @FXML
+    private Tab mainTab;
+    @FXML
+    private Tab degreeDistributionTab;
+    @FXML
+    private Tab cumulativeDegreeDistributionTab;
+    @FXML
+    private Tab clusteringCoefficientTab;
+    @FXML
+    private Tab degreeDynamicsTab;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        degreeDistributionTab.setDisable(true);
+        cumulativeDegreeDistributionTab.setDisable(true);
+        clusteringCoefficientTab.setDisable(true);
+        degreeDynamicsTab.setDisable(true);
     }
 
     @FXML
@@ -54,6 +69,10 @@ public class MainController implements Initializable {
         distributionChartX.setLowerBound(0);
         distributionChartX.setUpperBound(200);
         distributionChartX.setTickUnit(1);
+        degreeDistributionTab.setDisable(false);
+        cumulativeDegreeDistributionTab.setDisable(false);
+        clusteringCoefficientTab.setDisable(false);
+        degreeDynamicsTab.setDisable(false);
         //printAdjacencyList(network);
         //printDegrees(network);
         //printDegreeDistribution(network);
