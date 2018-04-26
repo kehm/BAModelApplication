@@ -13,13 +13,14 @@ import no.priv.kehm.bamodelapplication.util.NetworkAnalyzer;
 import no.priv.kehm.bamodelapplication.util.NetworkGenerator;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
 
     private static final int M = 4;
-    private static final int N = 100 - M;
+    private static final int N = 10000 - M;
     private Network network;
 
     @FXML
@@ -51,22 +52,25 @@ public class MainController implements Initializable {
         distributionChartY.setTickUnit(0.1);
         distributionChartX.setAutoRanging(false);
         distributionChartX.setLowerBound(0);
-        distributionChartX.setUpperBound(network.getNodes().size());
+        distributionChartX.setUpperBound(200);
         distributionChartX.setTickUnit(1);
-        printAdjacencyList(network);
-        printDegrees(network);
-        printDegreeDistribution(network);
+        //printAdjacencyList(network);
+        //printDegrees(network);
+        //printDegreeDistribution(network);
     }
 
     @FXML
     private void plotDegreeDistribution(ActionEvent event) {
-        final XYChart.Series series = new XYChart.Series();
-        series.setName("Degree Distribution");
-        LinkedList degreeDistribution = NetworkAnalyzer.getInstance().getDegreeDistribution(network);
-        for (int i = 0; i < degreeDistribution.size(); i++) {
-            series.getData().add(new XYChart.Data<>(i, degreeDistribution.get(i)));
+        ArrayList degreeDistributions = NetworkAnalyzer.getInstance().getDegreeDistributions();
+        for (int i = 0; i < degreeDistributions.size(); i++) {
+            final XYChart.Series series = new XYChart.Series();
+            series.setName("Degree Distribution");
+            LinkedList degreeDistribution = (LinkedList) degreeDistributions.get(i);
+            for (int j = 0; j < degreeDistribution.size(); j++) {
+                series.getData().add(new XYChart.Data<>(j, Math.log10((double) degreeDistribution.get(j))));
+            }
+            Platform.runLater(() -> distributionChart.getData().addAll(series));
         }
-        Platform.runLater(() -> distributionChart.getData().addAll(series));
     }
 
 

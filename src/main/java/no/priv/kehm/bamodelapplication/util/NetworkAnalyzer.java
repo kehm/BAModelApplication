@@ -2,6 +2,7 @@ package no.priv.kehm.bamodelapplication.util;
 
 import no.priv.kehm.bamodelapplication.network.Network;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -11,11 +12,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class NetworkAnalyzer {
 
     private static NetworkAnalyzer networkAnalyzer;
+    private ArrayList<LinkedList> degreeDistributions;
 
     /**
      * Private constructor for NetworkAnalyzer singleton
      */
-    public NetworkAnalyzer() {
+    private NetworkAnalyzer() {
+        degreeDistributions = new ArrayList<>();
     }
 
     /**
@@ -28,6 +31,15 @@ public class NetworkAnalyzer {
             networkAnalyzer = new NetworkAnalyzer();
         }
         return networkAnalyzer;
+    }
+
+    /**
+     * Adds degree distribution to collection
+     *
+     * @param degreeDistribution Degree distribution
+     */
+    public void addDegreeDistribution(LinkedList degreeDistribution) {
+        degreeDistributions.add(degreeDistribution);
     }
 
     /**
@@ -47,8 +59,17 @@ public class NetworkAnalyzer {
         }
         LinkedList<Double> degreeDistribution = new LinkedList<>();
         for (int i = 0; i < occurrences.size(); i++) {
-            degreeDistribution.add(i,(double) occurrences.get(i).get() / network.getNodes().size());
+            degreeDistribution.add(i, (double) occurrences.get(i).get() / network.getNodes().size());
         }
         return degreeDistribution;
+    }
+
+    /**
+     * Gets recorded degree distributions
+     *
+     * @return Degree distributions
+     */
+    public ArrayList<LinkedList> getDegreeDistributions() {
+        return degreeDistributions;
     }
 }

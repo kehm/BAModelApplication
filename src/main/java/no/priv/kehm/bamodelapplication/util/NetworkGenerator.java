@@ -4,6 +4,7 @@ import no.priv.kehm.bamodelapplication.network.Network;
 import no.priv.kehm.bamodelapplication.network.Node;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Random;
 
 /**
@@ -45,6 +46,10 @@ public class NetworkGenerator {
         ArrayList<Node> nodes = createNodes(network.getNodes().size(), n);
         for (Node node : nodes) {
             addNetworkNode(network, node, m);
+            // Measure degree distribution at intermediate steps
+            if (network.getNodes().size() == 100 || network.getNodes().size() == 1000 || network.getNodes().size() == 10000) {
+                NetworkAnalyzer.getInstance().addDegreeDistribution(NetworkAnalyzer.getInstance().getDegreeDistribution(network));
+            }
         }
         return network;
     }
