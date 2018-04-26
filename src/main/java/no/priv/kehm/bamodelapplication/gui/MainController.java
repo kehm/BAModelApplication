@@ -4,12 +4,10 @@ import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.ScatterChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.Tab;
 import javafx.scene.text.Text;
-import no.priv.kehm.bamodelapplication.lib.LogarithmicAxis;
 import no.priv.kehm.bamodelapplication.network.Network;
 import no.priv.kehm.bamodelapplication.service.GenerateNetworkService;
 import no.priv.kehm.bamodelapplication.util.NetworkAnalyzer;
@@ -39,12 +37,6 @@ public class MainController implements Initializable {
     private Button exitApplicationBtn;
     @FXML
     private Button plotDegreeDistributionBtn;
-    @FXML
-    private ScatterChart distributionChart;
-    @FXML
-    private LogarithmicAxis distributionChartX;
-    @FXML
-    private LogarithmicAxis distributionChartY;
     @FXML
     private Tab mainTab;
     @FXML
@@ -132,7 +124,7 @@ public class MainController implements Initializable {
         }
         JFreeChart chart = new JFreeChart(plot);
         ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new Dimension(648,450));
+        chartPanel.setPreferredSize(new Dimension(648,445));
         JPanel jPanel = new JPanel();
         jPanel.add(chartPanel);
         SwingUtilities.invokeLater(() -> distributionChartNode.setContent(jPanel));
