@@ -10,19 +10,11 @@ import javafx.scene.control.Tab;
 import javafx.scene.text.Text;
 import no.priv.kehm.bamodelapplication.network.Network;
 import no.priv.kehm.bamodelapplication.service.GenerateNetworkService;
+import no.priv.kehm.bamodelapplication.service.PlotDegreeDistributionService;
+import no.priv.kehm.bamodelapplication.service.PlotDegreeDynamicsService;
 import no.priv.kehm.bamodelapplication.util.NetworkAnalyzer;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.LogAxis;
-import org.jfree.chart.axis.NumberTickUnit;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.XYItemRenderer;
-import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
+
 import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
 import java.net.URL;
 import java.util.*;
 
@@ -111,71 +103,35 @@ public class MainController implements Initializable {
      * Plots degree distribution in the "Degree Distribution" tab
      */
     private void plotDegreeDistribution() {
-        XYSeriesCollection seriesCollection = new XYSeriesCollection();
-        ArrayList degreeDistributions = NetworkAnalyzer.getInstance().getDegreeDistributions();
-        for (int i = 0; i < degreeDistributions.size(); i++) {
-            String tag = i+1 + ". Measurement";
-            XYSeries series = new XYSeries(tag);
-            LinkedList degreeDistribution = (LinkedList) degreeDistributions.get(i);
-            for (int j = 0; j < degreeDistribution.size(); j++) {
-                series.add(j, (double) degreeDistribution.get(j));
-            }
-            seriesCollection.addSeries(series);
-        }
-        LogAxis xAxis = new LogAxis("k");
-        LogAxis yAxis = new LogAxis("Pk");
-        yAxis.setBase(10);
-        xAxis.setBase(10);
-        yAxis.setLowerBound(Math.pow(10, (-9)));
-        yAxis.setUpperBound(1);
-        xAxis.setLowerBound(1);
-        xAxis.setUpperBound(10000);
-        XYPlot plot = new XYPlot(seriesCollection, xAxis, yAxis, new XYLineAndShapeRenderer(false, true));
-        XYItemRenderer renderer = plot.getRenderer();
-        for(int i = 0; i < seriesCollection.getSeriesCount(); i++) {
-            renderer.setSeriesShape(i, new Ellipse2D.Double(-2.0, -2.0, 4.0, 4.0));
-        }
-        JFreeChart chart = new JFreeChart(plot);
-        ChartPanel chartPanel = new ChartPanel(chart, false);
-        chartPanel.setPreferredSize(new Dimension(680,445));
-        JPanel jPanel = new JPanel();
-        jPanel.add(chartPanel);
-        SwingUtilities.invokeLater(() -> distributionChartNode.setContent(jPanel));
+        final PlotDegreeDistributionService plotDegreeDistributionService = new PlotDegreeDistributionService();
+        plotDegreeDistributionService.setOnSucceeded(workerStateEvent -> {
+            JPanel jPanel = (JPanel) plotDegreeDistributionService.getValue();
+            SwingUtilities.invokeLater(() -> distributionChartNode.setContent(jPanel));
+        });
+        plotDegreeDistributionService.setOnFailed(workerStateEvent -> {
+            degreeDistributionTab.setDisable(true);
+            System.out.println("Degree distribution measurement failed!");
+        });
+        plotDegreeDistributionService.restart();
     }
 
     /**
      * Plots the degree dynamics in the "Degree Dynamics" tab
      */
     private void plotDegreeDynamics() {
-        XYSeriesCollection seriesCollection = new XYSeriesCollection();
-        LinkedHashMap<Integer, LinkedList<Integer>> degreeDynamics = NetworkAnalyzer.getInstance().getDegreeDynamics();
-        for (Map.Entry<Integer, LinkedList<Integer>> pair : degreeDynamics.entrySet()) {
-            int id = pair.getKey();
-            int t = id + 1 - NetworkAnalyzer.getInstance().getM();
-            String tag = "Node t=" + t;
-            XYSeries series = new XYSeries(tag);
-            LinkedList<Integer> degrees = pair.getValue();
-            for (int i = 0; i < degrees.size(); i++) {
-                series.add(i, degrees.get(i));
-            }
-            seriesCollection.addSeries(series);
-        }
-        LogAxis xAxis = new LogAxis("t");
-        LogAxis yAxis = new LogAxis("k");
-        yAxis.setLowerBound(1);
-        yAxis.setUpperBound(100000);
-        xAxis.setLowerBound(1);
-        xAxis.setUpperBound(10000);
-        XYPlot plot = new XYPlot(seriesCollection, xAxis, yAxis, new XYLineAndShapeRenderer(true, false));
-        JFreeChart chart = new JFreeChart(plot);
-        ChartPanel chartPanel = new ChartPanel(chart, false);
-        chartPanel.setPreferredSize(new Dimension(680,445));
-        JPanel jPanel = new JPanel();
-        jPanel.add(chartPanel);
-        SwingUtilities.invokeLater(() -> dynamicsChartNode.setContent(jPanel));
+        final PlotDegreeDynamicsService plotDegreeDynamicsService = new PlotDegreeDynamicsService();
+        plotDegreeDynamicsService.setOnSucceeded(workerStateEvent -> {
+            JPanel jPanel = (JPanel) plotDegreeDynamicsService.getValue();
+            SwingUtilities.invokeLater(() -> dynamicsChartNode.setContent(jPanel));
+        });
+        plotDegreeDynamicsService.setOnFailed(workerStateEvent -> {
+            degreeDynamicsTab.setDisable(true);
+            System.out.println("Degree dynamics measurement failed!");
+        });
+        plotDegreeDynamicsService.restart();
     }
 
-        // DEBUG METHODS BELOW
+    // DEBUG METHODS BELOW
 
     /**
      * Prints adjacency list
