@@ -4,7 +4,6 @@ import no.priv.kehm.bamodelapplication.network.Network;
 import no.priv.kehm.bamodelapplication.network.Node;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Random;
 
 /**
