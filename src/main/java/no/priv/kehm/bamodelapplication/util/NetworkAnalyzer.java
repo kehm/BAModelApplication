@@ -3,7 +3,9 @@ package no.priv.kehm.bamodelapplication.util;
 import no.priv.kehm.bamodelapplication.network.Network;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -13,6 +15,8 @@ public class NetworkAnalyzer {
 
     private static NetworkAnalyzer networkAnalyzer;
     private ArrayList<LinkedList> degreeDistributions;
+    private LinkedHashMap<Integer, LinkedList<Integer>> degreeDynamics;
+    private int m;
 
     /**
      * Private constructor for NetworkAnalyzer singleton
@@ -31,6 +35,46 @@ public class NetworkAnalyzer {
             networkAnalyzer = new NetworkAnalyzer();
         }
         return networkAnalyzer;
+    }
+
+    /**
+     * Initializes the degree dynamics map
+     *
+     * @param m m value
+     */
+    public void initDegreeDynamics(int m) {
+        degreeDynamics = new LinkedHashMap<>();
+        degreeDynamics.put(m - 1, new LinkedList<>());
+        degreeDynamics.put(100 + m - 1, new LinkedList<>());
+        degreeDynamics.put(1000 + m - 1, new LinkedList<>());
+        degreeDynamics.put(5000 + m - 1, new LinkedList<>());
+        this.m = m;
+    }
+
+    /**
+     * Records degree dynamics
+     *
+     * @param network Network
+     */
+    public void measureDegreeDynamics(Network network) {
+        for (Map.Entry<Integer, LinkedList<Integer>> pair : degreeDynamics.entrySet()) {
+            int id = pair.getKey();
+            if (id < network.getNodes().size()) {
+                addDegreeDynamic(id, network.getNodeDegree(id));
+            } else {
+                addDegreeDynamic(id, 0);
+            }
+        }
+    }
+
+    /**
+     * Add degree dynamic to collection
+     *
+     * @param id Node id
+     * @param k  Degree
+     */
+    private void addDegreeDynamic(int id, int k) {
+        degreeDynamics.get(id).add(k);
     }
 
     /**
@@ -108,5 +152,23 @@ public class NetworkAnalyzer {
             }
         }
         return (double) (links) / (degree * (degree - 1));
+    }
+
+    /**
+     * Gets degree dynamics
+     *
+     * @return Degree dynamics map
+     */
+    public LinkedHashMap<Integer, LinkedList<Integer>> getDegreeDynamics() {
+        return degreeDynamics;
+    }
+
+    /**
+     * Gets m
+     *
+     * @return m value
+     */
+    public int getM() {
+        return m;
     }
 }

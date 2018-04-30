@@ -42,6 +42,7 @@ public class NetworkGenerator {
      */
     public Network generateNetwork(int n, int m) {
         Network network = init(m);
+        NetworkAnalyzer.getInstance().initDegreeDynamics(m);
         ArrayList<Node> nodes = createNodes(network.getNodes().size(), n);
         for (Node node : nodes) {
             addNetworkNode(network, node, m);
@@ -49,6 +50,7 @@ public class NetworkGenerator {
             if (network.getNodes().size() == 100 || network.getNodes().size() == 1000 || network.getNodes().size() == 10000) {
                 NetworkAnalyzer.getInstance().addDegreeDistribution(NetworkAnalyzer.getInstance().getDegreeDistribution(network));
             }
+            NetworkAnalyzer.getInstance().measureDegreeDynamics(network);
         }
         return network;
     }

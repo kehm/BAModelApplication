@@ -23,9 +23,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class MainController implements Initializable {
 
@@ -149,6 +147,18 @@ public class MainController implements Initializable {
      */
     private void plotDegreeDynamics() {
         XYSeriesCollection seriesCollection = new XYSeriesCollection();
+        LinkedHashMap<Integer, LinkedList<Integer>> degreeDynamics = NetworkAnalyzer.getInstance().getDegreeDynamics();
+        for (Map.Entry<Integer, LinkedList<Integer>> pair : degreeDynamics.entrySet()) {
+            int id = pair.getKey();
+            int t = id + 1 - NetworkAnalyzer.getInstance().getM();
+            String tag = "Node t=" + t;
+            XYSeries series = new XYSeries(tag);
+            LinkedList<Integer> degrees = pair.getValue();
+            for (int i = 0; i < degrees.size(); i++) {
+                series.add(i, degrees.get(i));
+            }
+            seriesCollection.addSeries(series);
+        }
         LogAxis xAxis = new LogAxis("t");
         LogAxis yAxis = new LogAxis("k");
         yAxis.setLowerBound(1);
