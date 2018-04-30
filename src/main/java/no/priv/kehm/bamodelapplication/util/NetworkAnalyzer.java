@@ -84,7 +84,6 @@ public class NetworkAnalyzer {
         for (int i = 0; i < network.getNodes().size(); i++) {
             double c = getClusteringCoefficient(network, i);
             sum += c;
-            System.out.println("NODE(" + i + ")C("+c+")");
         }
         return sum / network.getNodes().size();
     }

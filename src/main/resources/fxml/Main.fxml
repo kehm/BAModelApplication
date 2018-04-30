@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.embed.swing.SwingNode?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -30,13 +31,34 @@
          <center>
             <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
               <tabs>
-                  <Tab fx:id="mainTab" text="Main">
+                  <Tab fx:id="startTab" text="Start">
                      <content>
                         <StackPane prefHeight="150.0" prefWidth="200.0">
                            <children>
                               <BorderPane prefHeight="200.0" prefWidth="200.0">
                                  <left>
-                                    <VBox prefHeight="464.0" prefWidth="281.0" BorderPane.alignment="CENTER" />
+                                    <VBox prefHeight="464.0" prefWidth="281.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" />
+                                          <Text fx:id="numberOfNodesText" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of nodes (N):">
+                                             <VBox.margin>
+                                                <Insets left="10.0" />
+                                             </VBox.margin></Text>
+                                          <Text fx:id="nOfNodesText" strokeType="OUTSIDE" strokeWidth="0.0">
+                                             <VBox.margin>
+                                                <Insets left="10.0" />
+                                             </VBox.margin></Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" />
+                                          <Text fx:id="clusteringText" strokeType="OUTSIDE" strokeWidth="0.0" text="Average Clustering Coefficient:">
+                                             <VBox.margin>
+                                                <Insets left="10.0" />
+                                             </VBox.margin></Text>
+                                          <Text fx:id="clusteringCText" strokeType="OUTSIDE" strokeWidth="0.0">
+                                             <VBox.margin>
+                                                <Insets left="10.0" />
+                                             </VBox.margin></Text>
+                                       </children></VBox>
                                  </left>
                                  <center>
                                     <VBox prefHeight="464.0" prefWidth="281.0" BorderPane.alignment="CENTER">
@@ -62,17 +84,7 @@
                      <content>
                         <StackPane prefHeight="150.0" prefWidth="200.0">
                            <children>
-                              <BorderPane prefHeight="200.0" prefWidth="200.0">
-                                 <right>
-                                    <VBox prefHeight="464.0" prefWidth="122.0" BorderPane.alignment="CENTER">
-                                       <children>
-                                          <Button fx:id="plotDegreeDistributionBtn" mnemonicParsing="false" onAction="#plotDegreeDistribution" prefHeight="60.0" prefWidth="125.0" text="Plot Degree Distribution" textAlignment="CENTER" wrapText="true" />
-                                       </children></VBox>
-                                 </right>
-                                 <center>
-                                    <SwingNode fx:id="distributionChartNode" />
-                                 </center>
-                              </BorderPane>
+                              <SwingNode fx:id="distributionChartNode" />
                            </children>
                         </StackPane>
                      </content>
@@ -85,25 +97,6 @@
                                  <right>
                                     <VBox prefHeight="464.0" prefWidth="122.0" BorderPane.alignment="CENTER" />
                                  </right>
-                              </BorderPane>
-                           </children>
-                        </StackPane>
-                     </content>
-                  </Tab>
-                  <Tab fx:id="clusteringCoefficientTab" text="Clustering Coefficient">
-                     <content>
-                        <StackPane prefHeight="150.0" prefWidth="200.0">
-                           <children>
-                              <BorderPane prefHeight="200.0" prefWidth="200.0">
-                                 <right>
-                                    <VBox prefHeight="464.0" prefWidth="122.0" BorderPane.alignment="CENTER">
-                                       <children>
-                                          <Button fx:id="clusteringCoefficientBtn" mnemonicParsing="false" onAction="#calculateClusteringCoefficient" prefHeight="60.0" prefWidth="125.0" text="Calculate Average Clustering Coefficient" textAlignment="CENTER" wrapText="true" />
-                                       </children></VBox>
-                                 </right>
-                                 <center>
-                                    <Text fx:id="clusteringCoefficientText" strokeType="OUTSIDE" strokeWidth="0.0" BorderPane.alignment="CENTER" />
-                                 </center>
                               </BorderPane>
                            </children>
                         </StackPane>

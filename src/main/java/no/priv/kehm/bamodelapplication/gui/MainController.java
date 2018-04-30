@@ -36,15 +36,11 @@ public class MainController implements Initializable {
     @FXML
     private Button exitApplicationBtn;
     @FXML
-    private Button plotDegreeDistributionBtn;
-    @FXML
-    private Tab mainTab;
+    private Tab startTab;
     @FXML
     private Tab degreeDistributionTab;
     @FXML
     private Tab cumulativeDegreeDistributionTab;
-    @FXML
-    private Tab clusteringCoefficientTab;
     @FXML
     private Tab degreeDynamicsTab;
     @FXML
@@ -54,17 +50,22 @@ public class MainController implements Initializable {
     @FXML
     private SwingNode distributionChartNode;
     @FXML
-    private Button clusteringCoefficientBtn;
+    private Text clusteringText;
     @FXML
-    private Text clusteringCoefficientText;
+    private Text clusteringCText;
+    @FXML
+    private Text numberOfNodesText;
+    @FXML
+    private Text nOfNodesText;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         degreeDistributionTab.setDisable(true);
         cumulativeDegreeDistributionTab.setDisable(true);
-        clusteringCoefficientTab.setDisable(true);
         degreeDynamicsTab.setDisable(true);
         networkProgress.setVisible(false);
+        clusteringText.setVisible(false);
+        numberOfNodesText.setVisible(false);
     }
 
     @FXML
@@ -85,9 +86,13 @@ public class MainController implements Initializable {
             welcomeText.setText("Network generated");
             degreeDistributionTab.setDisable(false);
             cumulativeDegreeDistributionTab.setDisable(false);
-            clusteringCoefficientTab.setDisable(false);
             degreeDynamicsTab.setDisable(false);
             exitApplicationBtn.setDisable(false);
+            numberOfNodesText.setVisible(true);
+            nOfNodesText.setText(String.valueOf(network.getNodes().size()));
+            clusteringText.setVisible(true);
+            clusteringCText.setText(String.valueOf(NetworkAnalyzer.getInstance().getAverageClusteringCoefficient(network)));
+            plotDegreeDistribution();
         });
         generateNetworkService.setOnFailed(workerStateEvent -> {
             networkProgress.setVisible(false);
@@ -100,8 +105,7 @@ public class MainController implements Initializable {
         generateNetworkService.restart();
     }
 
-    @FXML
-    private void plotDegreeDistribution(ActionEvent event) {
+    private void plotDegreeDistribution() {
         XYSeriesCollection seriesCollection = new XYSeriesCollection();
         ArrayList degreeDistributions = NetworkAnalyzer.getInstance().getDegreeDistributions();
         for (int i = 0; i < degreeDistributions.size(); i++) {
@@ -128,15 +132,10 @@ public class MainController implements Initializable {
         }
         JFreeChart chart = new JFreeChart(plot);
         ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new Dimension(648,445));
+        chartPanel.setPreferredSize(new Dimension(680,445));
         JPanel jPanel = new JPanel();
         jPanel.add(chartPanel);
         SwingUtilities.invokeLater(() -> distributionChartNode.setContent(jPanel));
-    }
-
-    @FXML
-    private void calculateClusteringCoefficient(ActionEvent event) {
-        clusteringCoefficientText.setText(String.valueOf(NetworkAnalyzer.getInstance().getAverageClusteringCoefficient(network)));
     }
 
         // DEBUG METHODS BELOW
