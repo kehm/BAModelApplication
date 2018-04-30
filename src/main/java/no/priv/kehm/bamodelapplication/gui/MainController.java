@@ -14,6 +14,7 @@ import no.priv.kehm.bamodelapplication.util.NetworkAnalyzer;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.LogAxis;
+import org.jfree.chart.axis.NumberTickUnit;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
@@ -164,8 +165,8 @@ public class MainController implements Initializable {
         yAxis.setLowerBound(1);
         yAxis.setUpperBound(100000);
         xAxis.setLowerBound(1);
-        xAxis.setUpperBound(1000000);
-        XYPlot plot = new XYPlot(seriesCollection, xAxis, yAxis, new XYLineAndShapeRenderer(false, true));
+        xAxis.setUpperBound(10000);
+        XYPlot plot = new XYPlot(seriesCollection, xAxis, yAxis, new XYLineAndShapeRenderer(true, false));
         JFreeChart chart = new JFreeChart(plot);
         ChartPanel chartPanel = new ChartPanel(chart, false);
         chartPanel.setPreferredSize(new Dimension(680,445));
