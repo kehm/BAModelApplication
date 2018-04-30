@@ -53,6 +53,10 @@ public class MainController implements Initializable {
     private Text welcomeText;
     @FXML
     private SwingNode distributionChartNode;
+    @FXML
+    private Button clusteringCoefficientBtn;
+    @FXML
+    private Text clusteringCoefficientText;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -130,7 +134,12 @@ public class MainController implements Initializable {
         SwingUtilities.invokeLater(() -> distributionChartNode.setContent(jPanel));
     }
 
-    // DEBUG METHODS BELOW
+    @FXML
+    private void calculateClusteringCoefficient(ActionEvent event) {
+        clusteringCoefficientText.setText(String.valueOf(NetworkAnalyzer.getInstance().getAverageClusteringCoefficient(network)));
+    }
+
+        // DEBUG METHODS BELOW
 
     /**
      * Prints adjacency list

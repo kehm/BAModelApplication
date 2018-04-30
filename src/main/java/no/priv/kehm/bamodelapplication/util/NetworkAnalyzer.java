@@ -72,4 +72,42 @@ public class NetworkAnalyzer {
     public ArrayList<LinkedList> getDegreeDistributions() {
         return degreeDistributions;
     }
+
+    /**
+     * Gets average clustering coefficient for the network
+     *
+     * @param network Network
+     * @return Average clustering coefficient
+     */
+    public double getAverageClusteringCoefficient(Network network) {
+        double sum = 0;
+        for (int i = 0; i < network.getNodes().size(); i++) {
+            double c = getClusteringCoefficient(network, i);
+            sum += c;
+            System.out.println("NODE(" + i + ")C("+c+")");
+        }
+        return sum / network.getNodes().size();
+    }
+
+    /**
+     * Gets clustering coefficient
+     *
+     * @param network Network
+     * @param id      Node id
+     * @return Clustering coefficient
+     */
+    private double getClusteringCoefficient(Network network, int id) {
+        int degree = network.getNodeDegree(id);
+        int links = 0;
+        LinkedList adjacencyList = network.getAdjacencyList().get(id);
+        for (int i = 0; i < adjacencyList.size(); i++) {
+            LinkedList iAdjacencyList = network.getAdjacencyList().get((Integer) adjacencyList.get(i));
+            for (Object anIAdjacencyList : iAdjacencyList) {
+                if (adjacencyList.contains(anIAdjacencyList)) {
+                    links++;
+                }
+            }
+        }
+        return (double) (links) / (degree * (degree - 1));
+    }
 }

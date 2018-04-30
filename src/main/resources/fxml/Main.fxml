@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.chart.ScatterChart?>
+<?import javafx.embed.swing.SwingNode?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -14,8 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<?import javafx.embed.swing.SwingNode?>
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="518.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.priv.kehm.bamodelapplication.gui.MainController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="518.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.priv.kehm.bamodelapplication.gui.MainController">
    <children>
       <BorderPane prefHeight="418.0" prefWidth="668.0">
          <top>
@@ -72,7 +70,7 @@
                                        </children></VBox>
                                  </right>
                                  <center>
-                                    <SwingNode fx:id="distributionChartNode"/>
+                                    <SwingNode fx:id="distributionChartNode" />
                                  </center>
                               </BorderPane>
                            </children>
@@ -92,14 +90,20 @@
                         </StackPane>
                      </content>
                   </Tab>
-                  <Tab fx:id="clusteringCoefficientTab" text="Cluestering Coefficient">
+                  <Tab fx:id="clusteringCoefficientTab" text="Clustering Coefficient">
                      <content>
                         <StackPane prefHeight="150.0" prefWidth="200.0">
                            <children>
                               <BorderPane prefHeight="200.0" prefWidth="200.0">
                                  <right>
-                                    <VBox prefHeight="464.0" prefWidth="122.0" BorderPane.alignment="CENTER" />
+                                    <VBox prefHeight="464.0" prefWidth="122.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Button fx:id="clusteringCoefficientBtn" mnemonicParsing="false" onAction="#calculateClusteringCoefficient" prefHeight="60.0" prefWidth="125.0" text="Calculate Average Clustering Coefficient" textAlignment="CENTER" wrapText="true" />
+                                       </children></VBox>
                                  </right>
+                                 <center>
+                                    <Text fx:id="clusteringCoefficientText" strokeType="OUTSIDE" strokeWidth="0.0" BorderPane.alignment="CENTER" />
+                                 </center>
                               </BorderPane>
                            </children>
                         </StackPane>
