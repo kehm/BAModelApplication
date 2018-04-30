@@ -15,6 +15,8 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.LogAxis;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.NumberTickUnit;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
@@ -139,7 +141,7 @@ public class MainController implements Initializable {
             renderer.setSeriesShape(i, new Ellipse2D.Double(-2.0, -2.0, 4.0, 4.0));
         }
         JFreeChart chart = new JFreeChart(plot);
-        ChartPanel chartPanel = new ChartPanel(chart);
+        ChartPanel chartPanel = new ChartPanel(chart, false);
         chartPanel.setPreferredSize(new Dimension(680,445));
         JPanel jPanel = new JPanel();
         jPanel.add(chartPanel);
@@ -151,8 +153,15 @@ public class MainController implements Initializable {
      */
     private void plotDegreeDynamics() {
         XYSeriesCollection seriesCollection = new XYSeriesCollection();
-        JFreeChart chart = ChartFactory.createXYLineChart(null, "t", "k", seriesCollection, PlotOrientation.VERTICAL, true, false, false);
-        ChartPanel chartPanel = new ChartPanel(chart);
+        LogAxis xAxis = new LogAxis("t");
+        LogAxis yAxis = new LogAxis("k");
+        yAxis.setLowerBound(1);
+        yAxis.setUpperBound(100000);
+        xAxis.setLowerBound(1);
+        xAxis.setUpperBound(1000000);
+        XYPlot plot = new XYPlot(seriesCollection, xAxis, yAxis, new XYLineAndShapeRenderer(false, true));
+        JFreeChart chart = new JFreeChart(plot);
+        ChartPanel chartPanel = new ChartPanel(chart, false);
         chartPanel.setPreferredSize(new Dimension(680,445));
         JPanel jPanel = new JPanel();
         jPanel.add(chartPanel);
