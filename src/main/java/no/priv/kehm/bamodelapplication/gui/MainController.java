@@ -11,9 +11,11 @@ import javafx.scene.text.Text;
 import no.priv.kehm.bamodelapplication.network.Network;
 import no.priv.kehm.bamodelapplication.service.GenerateNetworkService;
 import no.priv.kehm.bamodelapplication.util.NetworkAnalyzer;
+import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.LogAxis;
+import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
@@ -49,6 +51,8 @@ public class MainController implements Initializable {
     private Text welcomeText;
     @FXML
     private SwingNode distributionChartNode;
+    @FXML
+    private SwingNode dynamicsChartNode;
     @FXML
     private Text clusteringText;
     @FXML
@@ -93,6 +97,7 @@ public class MainController implements Initializable {
             clusteringText.setVisible(true);
             clusteringCText.setText(String.valueOf(NetworkAnalyzer.getInstance().getAverageClusteringCoefficient(network)));
             plotDegreeDistribution();
+            plotDegreeDynamics();
         });
         generateNetworkService.setOnFailed(workerStateEvent -> {
             networkProgress.setVisible(false);
@@ -105,6 +110,9 @@ public class MainController implements Initializable {
         generateNetworkService.restart();
     }
 
+    /**
+     * Plots degree distribution in the "Degree Distribution" tab
+     */
     private void plotDegreeDistribution() {
         XYSeriesCollection seriesCollection = new XYSeriesCollection();
         ArrayList degreeDistributions = NetworkAnalyzer.getInstance().getDegreeDistributions();
@@ -136,6 +144,19 @@ public class MainController implements Initializable {
         JPanel jPanel = new JPanel();
         jPanel.add(chartPanel);
         SwingUtilities.invokeLater(() -> distributionChartNode.setContent(jPanel));
+    }
+
+    /**
+     * Plots the degree dynamics in the "Degree Dynamics" tab
+     */
+    private void plotDegreeDynamics() {
+        XYSeriesCollection seriesCollection = new XYSeriesCollection();
+        JFreeChart chart = ChartFactory.createXYLineChart(null, "t", "k", seriesCollection, PlotOrientation.VERTICAL, true, false, false);
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setPreferredSize(new Dimension(680,445));
+        JPanel jPanel = new JPanel();
+        jPanel.add(chartPanel);
+        SwingUtilities.invokeLater(() -> dynamicsChartNode.setContent(jPanel));
     }
 
         // DEBUG METHODS BELOW
