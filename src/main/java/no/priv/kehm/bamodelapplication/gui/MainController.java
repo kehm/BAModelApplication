@@ -12,6 +12,7 @@ import no.priv.kehm.bamodelapplication.network.Network;
 import no.priv.kehm.bamodelapplication.service.GenerateNetworkService;
 import no.priv.kehm.bamodelapplication.service.PlotDegreeDistributionService;
 import no.priv.kehm.bamodelapplication.service.PlotDegreeDynamicsService;
+import no.priv.kehm.bamodelapplication.service.PlotLogDistributionService;
 import no.priv.kehm.bamodelapplication.util.NetworkAnalyzer;
 
 import javax.swing.*;
@@ -31,6 +32,8 @@ public class MainController implements Initializable {
     @FXML
     private Tab degreeDistributionTab;
     @FXML
+    private Tab logDistributionTab;
+    @FXML
     private Tab cumulativeDegreeDistributionTab;
     @FXML
     private Tab degreeDynamicsTab;
@@ -40,6 +43,8 @@ public class MainController implements Initializable {
     private Text welcomeText;
     @FXML
     private SwingNode distributionChartNode;
+    @FXML
+    private SwingNode logChartNode;
     @FXML
     private SwingNode dynamicsChartNode;
     @FXML
@@ -54,6 +59,7 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         degreeDistributionTab.setDisable(true);
+        logDistributionTab.setDisable(true);
         cumulativeDegreeDistributionTab.setDisable(true);
         degreeDynamicsTab.setDisable(true);
         networkProgress.setVisible(false);
@@ -78,6 +84,7 @@ public class MainController implements Initializable {
             networkProgress.setVisible(false);
             welcomeText.setText("Network generated");
             degreeDistributionTab.setDisable(false);
+            logDistributionTab.setDisable(false);
             cumulativeDegreeDistributionTab.setDisable(false);
             degreeDynamicsTab.setDisable(false);
             exitApplicationBtn.setDisable(false);
@@ -86,6 +93,7 @@ public class MainController implements Initializable {
             clusteringText.setVisible(true);
             clusteringCText.setText(String.valueOf(NetworkAnalyzer.getInstance().getAverageClusteringCoefficient(network)));
             plotDegreeDistribution();
+            plotLogDistribution();
             plotDegreeDynamics();
         });
         generateNetworkService.setOnFailed(workerStateEvent -> {
@@ -100,7 +108,7 @@ public class MainController implements Initializable {
     }
 
     /**
-     * Plots degree distribution in the "Degree Distribution" tab
+     * Plots linearly binned degree distribution in the "Degree Distribution (Linear)" tab
      */
     private void plotDegreeDistribution() {
         final PlotDegreeDistributionService plotDegreeDistributionService = new PlotDegreeDistributionService();
@@ -110,9 +118,25 @@ public class MainController implements Initializable {
         });
         plotDegreeDistributionService.setOnFailed(workerStateEvent -> {
             degreeDistributionTab.setDisable(true);
-            System.out.println("Degree distribution measurement failed!");
+            System.out.println("Linearly binned degree distribution measurement failed!");
         });
         plotDegreeDistributionService.restart();
+    }
+
+    /**
+     * Plots log-binned degree distribution in the "Degree Distribution (Log)" tab
+     */
+    private void plotLogDistribution() {
+        final PlotLogDistributionService plotLogDistributionService = new PlotLogDistributionService();
+        plotLogDistributionService.setOnSucceeded(workerStateEvent -> {
+            JPanel jPanel = (JPanel) plotLogDistributionService.getValue();
+            SwingUtilities.invokeLater(() -> logChartNode.setContent(jPanel));
+        });
+        plotLogDistributionService.setOnFailed(workerStateEvent -> {
+            logDistributionTab.setDisable(true);
+            System.out.println("Log-binned degree distribution measurement failed!");
+        });
+        plotLogDistributionService.restart();
     }
 
     /**

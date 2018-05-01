@@ -80,11 +80,20 @@
                         </StackPane>
                      </content>
                   </Tab>
-                <Tab fx:id="degreeDistributionTab" text="Degree Distribution">
+                <Tab fx:id="degreeDistributionTab" text="Degree Distribution (Linear)">
                      <content>
                         <StackPane prefHeight="150.0" prefWidth="200.0">
                            <children>
                               <SwingNode fx:id="distributionChartNode" />
+                           </children>
+                        </StackPane>
+                     </content>
+                  </Tab>
+                  <Tab fx:id="logDistributionTab" text="Degree Distribution (Log)">
+                     <content>
+                        <StackPane prefHeight="150.0" prefWidth="200.0">
+                           <children>
+                              <SwingNode fx:id="logChartNode" />
                            </children>
                         </StackPane>
                      </content>
