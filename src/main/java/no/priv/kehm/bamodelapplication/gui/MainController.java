@@ -37,6 +37,14 @@ public class MainController implements Initializable {
     @FXML
     private ProgressIndicator networkProgress;
     @FXML
+    private ProgressIndicator linDistributionProgress;
+    @FXML
+    private ProgressIndicator logDistributionProgress;
+    @FXML
+    private ProgressIndicator cumulativeProgress;
+    @FXML
+    private ProgressIndicator dynamicsProgress;
+    @FXML
     private Text welcomeText;
     @FXML
     private SwingNode distributionChartNode;
@@ -123,6 +131,7 @@ public class MainController implements Initializable {
         plotLinDegreeDistributionService.setOnSucceeded(workerStateEvent -> {
             JPanel jPanel = (JPanel) plotLinDegreeDistributionService.getValue();
             SwingUtilities.invokeLater(() -> distributionChartNode.setContent(jPanel));
+            linDistributionProgress.setVisible(false);
         });
         plotLinDegreeDistributionService.setOnFailed(workerStateEvent -> {
             degreeDistributionTab.setDisable(true);
@@ -139,6 +148,7 @@ public class MainController implements Initializable {
         plotLogDegreeDistributionService.setOnSucceeded(workerStateEvent -> {
             JPanel jPanel = (JPanel) plotLogDegreeDistributionService.getValue();
             SwingUtilities.invokeLater(() -> logChartNode.setContent(jPanel));
+            logDistributionProgress.setVisible(false);
         });
         plotLogDegreeDistributionService.setOnFailed(workerStateEvent -> {
             logDistributionTab.setDisable(true);
@@ -155,6 +165,7 @@ public class MainController implements Initializable {
         plotCumulativeDistributionService.setOnSucceeded(workerStateEvent -> {
             JPanel jPanel = (JPanel) plotCumulativeDistributionService.getValue();
             SwingUtilities.invokeLater(() -> cumulativeChartNode.setContent(jPanel));
+            cumulativeProgress.setVisible(false);
         });
         plotCumulativeDistributionService.setOnFailed(workerStateEvent -> {
             logDistributionTab.setDisable(true);
@@ -171,6 +182,7 @@ public class MainController implements Initializable {
         plotDegreeDynamicsService.setOnSucceeded(workerStateEvent -> {
             JPanel jPanel = (JPanel) plotDegreeDynamicsService.getValue();
             SwingUtilities.invokeLater(() -> dynamicsChartNode.setContent(jPanel));
+            dynamicsProgress.setVisible(false);
         });
         plotDegreeDynamicsService.setOnFailed(workerStateEvent -> {
             degreeDynamicsTab.setDisable(true);

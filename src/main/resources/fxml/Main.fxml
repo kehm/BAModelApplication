@@ -93,6 +93,7 @@
                         <StackPane prefHeight="150.0" prefWidth="200.0">
                            <children>
                               <SwingNode fx:id="distributionChartNode" />
+                              <ProgressIndicator fx:id="linDistributionProgress" maxWidth="125.0" prefHeight="238.0" prefWidth="125.0" />
                            </children>
                         </StackPane>
                      </content>
@@ -102,6 +103,7 @@
                         <StackPane prefHeight="150.0" prefWidth="200.0">
                            <children>
                               <SwingNode fx:id="logChartNode" />
+                              <ProgressIndicator fx:id="logDistributionProgress" maxWidth="125.0" prefHeight="238.0" prefWidth="125.0" />
                            </children>
                         </StackPane>
                      </content>
@@ -111,6 +113,7 @@
                         <StackPane prefHeight="150.0" prefWidth="200.0">
                            <children>
                               <SwingNode fx:id="cumulativeChartNode" />
+                              <ProgressIndicator fx:id="cumulativeProgress" maxWidth="125.0" prefHeight="238.0" prefWidth="125.0" />
                            </children>
                         </StackPane>
                      </content>
@@ -120,6 +123,7 @@
                         <StackPane prefHeight="150.0" prefWidth="200.0">
                            <children>
                               <SwingNode fx:id="dynamicsChartNode" />
+                              <ProgressIndicator fx:id="dynamicsProgress" maxWidth="125.0" prefHeight="238.0" prefWidth="125.0" />
                            </children>
                         </StackPane>
                      </content>
