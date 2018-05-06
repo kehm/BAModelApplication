@@ -68,6 +68,9 @@ public class PlotLogDistributionService extends Service {
                 JFreeChart chart = new JFreeChart(plot);
                 ChartPanel chartPanel = new ChartPanel(chart, false);
                 chartPanel.setPreferredSize(new Dimension(680, 445));
+                chartPanel.setPopupMenu(null);
+                chartPanel.setDomainZoomable(false);
+                chartPanel.setRangeZoomable(false);
                 JPanel jPanel = new JPanel();
                 jPanel.add(chartPanel);
                 return jPanel;
