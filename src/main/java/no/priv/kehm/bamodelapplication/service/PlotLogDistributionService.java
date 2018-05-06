@@ -39,7 +39,6 @@ public class PlotLogDistributionService extends Service {
                             double entriesInThisBin = Math.pow(2, n);
                             while (entriesInThisBin + index > degreeDistribution.size()) {
                                 entriesInThisBin--;
-                                double nw = entriesInThisBin +index;
                             }
                             double averageDegreeDistribution = 0;
                             for (int k = 0; k < entriesInThisBin; k++) {
