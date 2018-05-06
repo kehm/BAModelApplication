@@ -50,7 +50,7 @@
                                                 <Insets left="10.0" />
                                              </VBox.margin></Text>
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" />
-                                          <Text fx:id="nClusteringCText" strokeType="OUTSIDE" strokeWidth="0.0" text="Average Clustering Coefficient (function of N):">
+                                          <Text fx:id="nClusteringCText" strokeType="OUTSIDE" strokeWidth="0.0" text="Average Clustering Coefficient ((ln N)^2 / N):">
                                              <VBox.margin>
                                                 <Insets left="10.0" />
                                              </VBox.margin>
@@ -61,7 +61,7 @@
                                              </VBox.margin>
                                           </Text>
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" />
-                                          <Text fx:id="clusteringText" strokeType="OUTSIDE" strokeWidth="0.0" text="Average Clustering Coefficient (measured):">
+                                          <Text fx:id="clusteringText" strokeType="OUTSIDE" strokeWidth="0.0" text="Average Clustering Coefficient (measured programmatically):">
                                              <VBox.margin>
                                                 <Insets left="10.0" />
                                              </VBox.margin></Text>
