@@ -25,8 +25,6 @@ public class MainController implements Initializable {
     @FXML
     private Button exitApplicationBtn;
     @FXML
-    private Tab startTab;
-    @FXML
     private Tab degreeDistributionTab;
     @FXML
     private Tab logDistributionTab;
@@ -45,8 +43,6 @@ public class MainController implements Initializable {
     @FXML
     private ProgressIndicator dynamicsProgress;
     @FXML
-    private Text welcomeText;
-    @FXML
     private SwingNode distributionChartNode;
     @FXML
     private SwingNode logChartNode;
@@ -54,6 +50,8 @@ public class MainController implements Initializable {
     private SwingNode cumulativeChartNode;
     @FXML
     private SwingNode dynamicsChartNode;
+    @FXML
+    private Text welcomeText;
     @FXML
     private Text clusteringText;
     @FXML

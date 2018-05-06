@@ -104,7 +104,6 @@ public class NetworkGenerator {
             double r = rand.nextDouble();
             if (p > r && !linkedNodes.contains(randNode.getId())) {
                 linkedNodes.add(randNode.getId());
-                //System.out.println(node.getId() + " -> " + randNode.getId());
             }
         }
         network.addNode(node);

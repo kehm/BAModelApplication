@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class NetworkAnalyzer {
 
     private static NetworkAnalyzer networkAnalyzer;
-    private ArrayList<LinkedList> degreeDistributions;
+    private ArrayList<LinkedList> degreeDistributions; // array to store measured degree distributions
     private LinkedHashMap<Integer, LinkedList<Integer>> degreeDynamics;
     private int m;
 
