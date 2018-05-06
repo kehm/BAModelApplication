@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="518.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.priv.kehm.bamodelapplication.gui.MainController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="518.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.priv.kehm.bamodelapplication.gui.MainController">
    <children>
       <BorderPane prefHeight="418.0" prefWidth="668.0">
          <top>
@@ -37,7 +37,7 @@
                            <children>
                               <BorderPane prefHeight="200.0" prefWidth="200.0">
                                  <left>
-                                    <VBox prefHeight="464.0" prefWidth="281.0" BorderPane.alignment="CENTER">
+                                    <VBox prefHeight="464.0" prefWidth="437.0" BorderPane.alignment="CENTER">
                                        <children>
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" />
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" />
@@ -50,7 +50,18 @@
                                                 <Insets left="10.0" />
                                              </VBox.margin></Text>
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" />
-                                          <Text fx:id="clusteringText" strokeType="OUTSIDE" strokeWidth="0.0" text="Average Clustering Coefficient:">
+                                          <Text fx:id="nClusteringCText" strokeType="OUTSIDE" strokeWidth="0.0" text="Average Clustering Coefficient (function of N):">
+                                             <VBox.margin>
+                                                <Insets left="10.0" />
+                                             </VBox.margin>
+                                          </Text>
+                                          <Text fx:id="nClusteringText" strokeType="OUTSIDE" strokeWidth="0.0">
+                                             <VBox.margin>
+                                                <Insets left="10.0" />
+                                             </VBox.margin>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" />
+                                          <Text fx:id="clusteringText" strokeType="OUTSIDE" strokeWidth="0.0" text="Average Clustering Coefficient (measured):">
                                              <VBox.margin>
                                                 <Insets left="10.0" />
                                              </VBox.margin></Text>
@@ -60,20 +71,17 @@
                                              </VBox.margin></Text>
                                        </children></VBox>
                                  </left>
-                                 <center>
-                                    <VBox prefHeight="464.0" prefWidth="281.0" BorderPane.alignment="CENTER">
+                                 <right>
+                                    <VBox prefHeight="464.0" prefWidth="122.0">
                                        <children>
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" />
                                           <ProgressIndicator fx:id="networkProgress" layoutX="78.0" layoutY="55.0" prefWidth="125.0" />
-                                          <Text fx:id="welcomeText" strokeType="OUTSIDE" strokeWidth="0.0" text="Click the button below to generate a network" textAlignment="CENTER" wrappingWidth="124.13671875" />
+                                          <Text fx:id="welcomeText" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="124.13671875" />
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" />
                                           <Button fx:id="generateNetworkBtn" mnemonicParsing="false" onAction="#generateNetwork" prefHeight="60.0" prefWidth="125.0" text="Generate Network" textAlignment="CENTER" wrapText="true" />
                                           <Button fx:id="exitApplicationBtn" mnemonicParsing="false" onAction="#exitApplication" prefHeight="60.0" prefWidth="125.0" text="Exit Application" textAlignment="CENTER" wrapText="true" />
                                        </children>
                                     </VBox>
-                                 </center>
-                                 <right>
-                                    <VBox prefHeight="464.0" prefWidth="371.0" BorderPane.alignment="CENTER" />
                                  </right>
                               </BorderPane>
                            </children>

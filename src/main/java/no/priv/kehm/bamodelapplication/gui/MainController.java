@@ -55,6 +55,10 @@ public class MainController implements Initializable {
     private Text numberOfNodesText;
     @FXML
     private Text nOfNodesText;
+    @FXML
+    private Text nClusteringText;
+    @FXML
+    private Text nClusteringCText;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -64,6 +68,7 @@ public class MainController implements Initializable {
         degreeDynamicsTab.setDisable(true);
         networkProgress.setVisible(false);
         clusteringText.setVisible(false);
+        nClusteringCText.setVisible(false);
         numberOfNodesText.setVisible(false);
     }
 
@@ -90,6 +95,9 @@ public class MainController implements Initializable {
             exitApplicationBtn.setDisable(false);
             numberOfNodesText.setVisible(true);
             nOfNodesText.setText(String.valueOf(network.getNodes().size()));
+            nClusteringCText.setVisible(true);
+            double lnN = Math.log(network.getNodes().size());
+            nClusteringText.setText(String.valueOf(Math.pow(lnN, 2) / network.getNodes().size()));
             clusteringText.setVisible(true);
             clusteringCText.setText(String.valueOf(NetworkAnalyzer.getInstance().getAverageClusteringCoefficient(network)));
             plotDegreeDistribution();
@@ -100,7 +108,7 @@ public class MainController implements Initializable {
             networkProgress.setVisible(false);
             exitApplicationBtn.setDisable(false);
             generateNetworkBtn.setDisable(false);
-            welcomeText.setText("Click the button below to generate a network");
+            welcomeText.setText("");
             welcomeText.setVisible(true);
             System.out.println("Network generation failed!");
         });
