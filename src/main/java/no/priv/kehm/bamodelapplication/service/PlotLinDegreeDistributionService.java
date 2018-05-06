@@ -2,7 +2,7 @@ package no.priv.kehm.bamodelapplication.service;
 
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
-import no.priv.kehm.bamodelapplication.util.ChartCreator;
+import no.priv.kehm.bamodelapplication.util.gui.ChartCreator;
 import no.priv.kehm.bamodelapplication.util.NetworkAnalyzer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;

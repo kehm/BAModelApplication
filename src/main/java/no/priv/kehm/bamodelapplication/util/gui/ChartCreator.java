@@ -1,4 +1,4 @@
-package no.priv.kehm.bamodelapplication.util;
+package no.priv.kehm.bamodelapplication.util.gui;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
