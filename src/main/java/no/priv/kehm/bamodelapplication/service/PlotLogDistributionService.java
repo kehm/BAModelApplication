@@ -30,8 +30,26 @@ public class PlotLogDistributionService extends Service {
                     String tag = i + 1 + ". Measurement";
                     XYSeries series = new XYSeries(tag);
                     LinkedList degreeDistribution = (LinkedList) degreeDistributions.get(i);
+                    int n = 0;
+                    int index = 0;
                     for (int j = 0; j < degreeDistribution.size(); j++) {
-                        series.add(j, (double) degreeDistribution.get(j));
+                        if (j < index) {
+                            series.add(j, 0);
+                        } else {
+                            double entriesInThisBin = Math.pow(2, n);
+                            while (entriesInThisBin + index > degreeDistribution.size()) {
+                                entriesInThisBin--;
+                                double nw = entriesInThisBin +index;
+                            }
+                            double averageDegreeDistribution = 0;
+                            for (int k = 0; k < entriesInThisBin; k++) {
+                               averageDegreeDistribution += (double) degreeDistribution.get(k + index);
+                            }
+                            averageDegreeDistribution /= entriesInThisBin;
+                            series.add(index, averageDegreeDistribution);
+                            index += entriesInThisBin;
+                            n++;
+                        }
                     }
                     seriesCollection.addSeries(series);
                 }
