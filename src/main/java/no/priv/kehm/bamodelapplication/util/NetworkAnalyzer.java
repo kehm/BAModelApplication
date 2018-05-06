@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Utility class to analyze the different properties of a network
+ * Singleton utility class to analyze the different properties of a network
  */
 public class NetworkAnalyzer {
 

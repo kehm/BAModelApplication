@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Singleton class to generate networks
+ * Singleton utility class to generate networks
  */
 public class NetworkGenerator {
 

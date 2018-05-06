@@ -2,19 +2,12 @@ package no.priv.kehm.bamodelapplication.service;
 
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import no.priv.kehm.bamodelapplication.util.ChartCreator;
 import no.priv.kehm.bamodelapplication.util.NetworkAnalyzer;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.LogAxis;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.XYItemRenderer;
-import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -39,28 +32,7 @@ public class PlotCumulativeDistributionService extends Service {
                     }
                     seriesCollection.addSeries(series);
                 }
-                LogAxis xAxis = new LogAxis("k");
-                LogAxis yAxis = new LogAxis("Pk");
-                yAxis.setBase(10);
-                xAxis.setBase(10);
-                yAxis.setLowerBound(Math.pow(10, (-9)));
-                yAxis.setUpperBound(1);
-                xAxis.setLowerBound(1);
-                xAxis.setUpperBound(10000);
-                XYPlot plot = new XYPlot(seriesCollection, xAxis, yAxis, new XYLineAndShapeRenderer(false, true));
-                XYItemRenderer renderer = plot.getRenderer();
-                for (int i = 0; i < seriesCollection.getSeriesCount(); i++) {
-                    renderer.setSeriesShape(i, new Ellipse2D.Double(-2.0, -2.0, 4.0, 4.0));
-                }
-                JFreeChart chart = new JFreeChart(plot);
-                ChartPanel chartPanel = new ChartPanel(chart, false);
-                chartPanel.setPreferredSize(new Dimension(680, 445));
-                chartPanel.setPopupMenu(null);
-                chartPanel.setDomainZoomable(false);
-                chartPanel.setRangeZoomable(false);
-                JPanel jPanel = new JPanel();
-                jPanel.add(chartPanel);
-                return jPanel;
+                return ChartCreator.getInstance().getLogChart(seriesCollection, 1, Math.pow(10, (-9)), 10000, 1, "k", "Pk", false, true);
             }
         };
     }
