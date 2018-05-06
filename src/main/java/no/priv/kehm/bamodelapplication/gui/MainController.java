@@ -9,10 +9,7 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.Tab;
 import javafx.scene.text.Text;
 import no.priv.kehm.bamodelapplication.network.Network;
-import no.priv.kehm.bamodelapplication.service.GenerateNetworkService;
-import no.priv.kehm.bamodelapplication.service.PlotLinDegreeDistributionService;
-import no.priv.kehm.bamodelapplication.service.PlotDegreeDynamicsService;
-import no.priv.kehm.bamodelapplication.service.PlotLogDegreeDistributionService;
+import no.priv.kehm.bamodelapplication.service.*;
 import no.priv.kehm.bamodelapplication.util.NetworkAnalyzer;
 
 import javax.swing.*;
@@ -45,6 +42,8 @@ public class MainController implements Initializable {
     private SwingNode distributionChartNode;
     @FXML
     private SwingNode logChartNode;
+    @FXML
+    private SwingNode cumulativeChartNode;
     @FXML
     private SwingNode dynamicsChartNode;
     @FXML
@@ -102,6 +101,7 @@ public class MainController implements Initializable {
             clusteringCText.setText(String.valueOf(NetworkAnalyzer.getInstance().getAverageClusteringCoefficient(network)));
             plotLinDegreeDistribution();
             plotLogDegreeDistribution();
+            plotCumulativeDistribution();
             plotDegreeDynamics();
         });
         generateNetworkService.setOnFailed(workerStateEvent -> {
@@ -145,6 +145,22 @@ public class MainController implements Initializable {
             System.out.println("Log-binned degree distribution measurement failed!");
         });
         plotLogDegreeDistributionService.restart();
+    }
+
+    /**
+     * Plots cumulative degree distribution in the "Cumulative Distribution" tab
+     */
+    private void plotCumulativeDistribution() {
+        final PlotCumulativeDistributionService plotCumulativeDistributionService = new PlotCumulativeDistributionService();
+        plotCumulativeDistributionService.setOnSucceeded(workerStateEvent -> {
+            JPanel jPanel = (JPanel) plotCumulativeDistributionService.getValue();
+            SwingUtilities.invokeLater(() -> cumulativeChartNode.setContent(jPanel));
+        });
+        plotCumulativeDistributionService.setOnFailed(workerStateEvent -> {
+            logDistributionTab.setDisable(true);
+            System.out.println("Cumulative degree distribution measurement failed!");
+        });
+        plotCumulativeDistributionService.restart();
     }
 
     /**

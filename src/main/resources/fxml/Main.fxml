@@ -110,11 +110,7 @@
                      <content>
                         <StackPane prefHeight="150.0" prefWidth="200.0">
                            <children>
-                              <BorderPane prefHeight="200.0" prefWidth="200.0">
-                                 <right>
-                                    <VBox prefHeight="464.0" prefWidth="122.0" BorderPane.alignment="CENTER" />
-                                 </right>
-                              </BorderPane>
+                              <SwingNode fx:id="cumulativeChartNode" />
                            </children>
                         </StackPane>
                      </content>
