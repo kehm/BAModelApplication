@@ -17,6 +17,9 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+/**
+ * Service class to plot degree dynamics
+ */
 public class PlotDegreeDynamicsService extends Service {
     @Override
     protected Task createTask() {

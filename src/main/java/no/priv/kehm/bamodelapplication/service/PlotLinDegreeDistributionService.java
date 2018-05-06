@@ -18,7 +18,10 @@ import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class PlotDegreeDistributionService extends Service {
+/**
+ * Service class to plot linear binned degree distribution
+ */
+public class PlotLinDegreeDistributionService extends Service {
     @Override
     protected Task createTask() {
         return new Task<JPanel>() {

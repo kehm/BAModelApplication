@@ -10,9 +10,9 @@ import javafx.scene.control.Tab;
 import javafx.scene.text.Text;
 import no.priv.kehm.bamodelapplication.network.Network;
 import no.priv.kehm.bamodelapplication.service.GenerateNetworkService;
-import no.priv.kehm.bamodelapplication.service.PlotDegreeDistributionService;
+import no.priv.kehm.bamodelapplication.service.PlotLinDegreeDistributionService;
 import no.priv.kehm.bamodelapplication.service.PlotDegreeDynamicsService;
-import no.priv.kehm.bamodelapplication.service.PlotLogDistributionService;
+import no.priv.kehm.bamodelapplication.service.PlotLogDegreeDistributionService;
 import no.priv.kehm.bamodelapplication.util.NetworkAnalyzer;
 
 import javax.swing.*;
@@ -100,8 +100,8 @@ public class MainController implements Initializable {
             nClusteringText.setText(String.valueOf(Math.pow(lnN, 2) / network.getNodes().size()));
             clusteringText.setVisible(true);
             clusteringCText.setText(String.valueOf(NetworkAnalyzer.getInstance().getAverageClusteringCoefficient(network)));
-            plotDegreeDistribution();
-            plotLogDistribution();
+            plotLinDegreeDistribution();
+            plotLogDegreeDistribution();
             plotDegreeDynamics();
         });
         generateNetworkService.setOnFailed(workerStateEvent -> {
@@ -118,33 +118,33 @@ public class MainController implements Initializable {
     /**
      * Plots linearly binned degree distribution in the "Degree Distribution (Linear)" tab
      */
-    private void plotDegreeDistribution() {
-        final PlotDegreeDistributionService plotDegreeDistributionService = new PlotDegreeDistributionService();
-        plotDegreeDistributionService.setOnSucceeded(workerStateEvent -> {
-            JPanel jPanel = (JPanel) plotDegreeDistributionService.getValue();
+    private void plotLinDegreeDistribution() {
+        final PlotLinDegreeDistributionService plotLinDegreeDistributionService = new PlotLinDegreeDistributionService();
+        plotLinDegreeDistributionService.setOnSucceeded(workerStateEvent -> {
+            JPanel jPanel = (JPanel) plotLinDegreeDistributionService.getValue();
             SwingUtilities.invokeLater(() -> distributionChartNode.setContent(jPanel));
         });
-        plotDegreeDistributionService.setOnFailed(workerStateEvent -> {
+        plotLinDegreeDistributionService.setOnFailed(workerStateEvent -> {
             degreeDistributionTab.setDisable(true);
             System.out.println("Linearly binned degree distribution measurement failed!");
         });
-        plotDegreeDistributionService.restart();
+        plotLinDegreeDistributionService.restart();
     }
 
     /**
      * Plots log-binned degree distribution in the "Degree Distribution (Log)" tab
      */
-    private void plotLogDistribution() {
-        final PlotLogDistributionService plotLogDistributionService = new PlotLogDistributionService();
-        plotLogDistributionService.setOnSucceeded(workerStateEvent -> {
-            JPanel jPanel = (JPanel) plotLogDistributionService.getValue();
+    private void plotLogDegreeDistribution() {
+        final PlotLogDegreeDistributionService plotLogDegreeDistributionService = new PlotLogDegreeDistributionService();
+        plotLogDegreeDistributionService.setOnSucceeded(workerStateEvent -> {
+            JPanel jPanel = (JPanel) plotLogDegreeDistributionService.getValue();
             SwingUtilities.invokeLater(() -> logChartNode.setContent(jPanel));
         });
-        plotLogDistributionService.setOnFailed(workerStateEvent -> {
+        plotLogDegreeDistributionService.setOnFailed(workerStateEvent -> {
             logDistributionTab.setDisable(true);
             System.out.println("Log-binned degree distribution measurement failed!");
         });
-        plotLogDistributionService.restart();
+        plotLogDegreeDistributionService.restart();
     }
 
     /**

@@ -18,7 +18,10 @@ import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class PlotLogDistributionService extends Service {
+/**
+ * Service class to plot log-binned degree distribution
+ */
+public class PlotLogDegreeDistributionService extends Service {
     @Override
     protected Task createTask() {
         return new Task<JPanel>() {
